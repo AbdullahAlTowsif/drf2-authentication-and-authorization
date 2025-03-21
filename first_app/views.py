@@ -27,6 +27,7 @@ class ProductReviewViewSet(viewsets.ModelViewSet):
     queryset = models.ProductReview.objects.all()
     serializer_class = serializers.ProductReviewSerializer
     
+    # Method: 1 (filtering ==> short cut)
     # filter
     # filter_backends = [DjangoFilterBackend]
     # filterset_fields = ['user__username']
@@ -41,6 +42,7 @@ class ProductReviewViewSet(viewsets.ModelViewSet):
     # http://127.0.0.1:8000/reviews/?rating=3, http://127.0.0.1:8000/reviews/?rating=3&product=2
     # 2. use: queryset = models.ProductReview.objects.all()
     
+    # Method: 2 (filtering ==> Long cut)
     # def get_queryset(self):
     #     queryset = models.ProductReview.objects.all()
     #     username = self.request.query_params.get('username')
