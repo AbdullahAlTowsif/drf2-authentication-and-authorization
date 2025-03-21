@@ -4,6 +4,7 @@ from . import models, serializers
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from . import permissions
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 class ProductViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAuthenticated]
@@ -11,15 +12,29 @@ class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AdminOrReadOnly]
     queryset = models.Product.objects.all()
     serializer_class = serializers.ProductSerializer
+    
+    # search filtering
+    # filter_backends = [filters.SearchFilter]
+    # search_fields = ['name', 'description']
+    
+    # order filtering
+    # filter_backends = [filters.OrderingFilter]
+    # ordering_fields = ['price']
 
 
 class ProductReviewViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.ReviewerOrReadOnly]
     queryset = models.ProductReview.objects.all()
     serializer_class = serializers.ProductReviewSerializer
-    filter_backends = [DjangoFilterBackend]
+    
+    # filter
+    # filter_backends = [DjangoFilterBackend]
     # filterset_fields = ['user__username']
-    filterset_fields = ['rating', 'product']
+    # filterset_fields = ['rating', 'product']
+    
+    # ordering filter
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['rating']
     
     # when we use filter_backends, filterset_fields follow below steps:
     # 1. api will be: http://127.0.0.1:8000/reviews/?user__username=towsif
