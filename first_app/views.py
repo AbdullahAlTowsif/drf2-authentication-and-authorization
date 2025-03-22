@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from . import permissions
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from . import paginations
 
 class ProductViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAuthenticated]
@@ -12,6 +13,12 @@ class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AdminOrReadOnly]
     queryset = models.Product.objects.all()
     serializer_class = serializers.ProductSerializer
+    # pagination
+    # pagination_class = paginations.ProductPagination
+    # pagination_class = paginations.ProductLimitOffsetPagination
+    
+    # while using cursor pagination don't use filter
+    pagination_class = paginations.ProductCursorPagination
     
     # search filtering
     # filter_backends = [filters.SearchFilter]
